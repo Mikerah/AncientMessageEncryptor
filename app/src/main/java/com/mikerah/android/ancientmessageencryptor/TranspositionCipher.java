@@ -9,7 +9,7 @@ public class TranspositionCipher implements Cipher {
     public String encrypt(String key, String message) {
         String translated = null;
         int encryptionKey = Integer.parseInt(key);
-        char ciphertext[encryptionKey];
+        char[] ciphertext = new char[encryptionKey];
 
         for(int col = 0; col < encryptionKey; col++) {
             int pointer = col;
@@ -33,7 +33,7 @@ public class TranspositionCipher implements Cipher {
         int colsForDecryption = (int) Math.ceil(message.length()/decryptionKey);
         int rowsForDecryption = Integer.parseInt(key);
         int boxes = (colsForDecryption * rowsForDecryption) - message.length();
-        char plaintext[colsForDecryption];
+        char[] plaintext = new char[colsForDecryption];
 
         int col = 0, row = 0;
 
