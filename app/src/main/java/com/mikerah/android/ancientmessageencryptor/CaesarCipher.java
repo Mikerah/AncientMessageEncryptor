@@ -46,13 +46,13 @@ public class CaesarCipher implements Cipher {
     @Override
     public String decrypt(String key, String message) {
         String translated = null;
-        int encryptionKey = Integer.parseInt(key);
+        int decryptionKey = Integer.parseInt(key);
 
         for(int i = 0; i < message.length(); i++) {
             if(Character.isLetter(message.charAt(i))) {
                 if(Character.isUpperCase(message.charAt(i))) {
                     int num = message.charAt(i) - 'A';
-                    num -= encryptionKey;
+                    num -= decryptionKey;
 
                     if (num < 0) {
                         num += 26;
@@ -62,7 +62,7 @@ public class CaesarCipher implements Cipher {
                 }
                 else {
                     int num = message.charAt(i) - 'a';
-                    num += encryptionKey;
+                    num += decryptionKey;
 
                     if (num < 0) {
                         num += 26;
