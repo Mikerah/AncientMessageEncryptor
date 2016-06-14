@@ -5,6 +5,6 @@ package com.mikerah.android.ancientmessageencryptor;
  */
 public interface Cipher {
 
-    public String encrypt();
-    public String decrypt();
+    public String encrypt(String key, String message);
+    public String decrypt(String key, String message);
 }

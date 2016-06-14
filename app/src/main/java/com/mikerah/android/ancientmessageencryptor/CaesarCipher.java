@@ -5,12 +5,12 @@ package com.mikerah.android.ancientmessageencryptor;
  */
 public class CaesarCipher implements Cipher {
     @Override
-    public String encrypt() {
+    public String encrypt(String key, String message) {
         return null;
     }
 
     @Override
-    public String decrypt() {
+    public String decrypt(String key, String message) {
         return null;
     }
 }
