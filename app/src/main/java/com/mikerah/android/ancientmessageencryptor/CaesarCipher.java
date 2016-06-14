@@ -18,9 +18,6 @@ public class CaesarCipher implements Cipher {
                     if (num >= 26) {
                         num -= 26;
                     }
-                    else {
-                        num += 26;
-                    }
 
                     translated += (num + 65);
                 }
@@ -57,8 +54,8 @@ public class CaesarCipher implements Cipher {
                     int num = message.charAt(i) - 'A';
                     num -= encryptionKey;
 
-                    if (num >= 26) {
-                        num -= 26;
+                    if (num < 0) {
+                        num += 26;
                     }
 
                     translated += (num + 65);
