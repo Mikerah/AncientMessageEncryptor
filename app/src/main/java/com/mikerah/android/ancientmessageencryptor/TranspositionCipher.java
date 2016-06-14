@@ -7,7 +7,12 @@ public class TranspositionCipher implements Cipher {
 
     @Override
     public String encrypt(String key, String message) {
-        return null;
+        String translated = null;
+        int encryptionKey;
+
+        for(int col = 0; col < encryptionKey)
+
+        return translated;
     }
 
     @Override
