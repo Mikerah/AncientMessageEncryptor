@@ -9,7 +9,7 @@ public class CaesarCipher implements Cipher {
         String translated = null;
         int encryptionKey = Integer.parseInt(key);
 
-        for(int i = 0; i < translated.length(); i++) {
+        for(int i = 0; i < message.length(); i++) {
             if(Character.isLetter(message.charAt(i))) {
                 if(Character.isUpperCase(message.charAt(i))) {
                     int num = message.charAt(i) - 'A';
