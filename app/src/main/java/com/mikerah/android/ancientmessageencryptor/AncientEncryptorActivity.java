@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 
 public class AncientEncryptorActivity extends AppCompatActivity {
@@ -34,6 +35,10 @@ public class AncientEncryptorActivity extends AppCompatActivity {
 
         final EditText key = (EditText) findViewById(R.id.cipher_key);
 
+        final RadioButton textMessage = (RadioButton) findViewById(R.id.textMessageOption);
+
+        final RadioButton email = (RadioButton) findViewById(R.id.emailOption);
+
         Button nextButton = (Button) findViewById(R.id.next_button);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,11 +46,15 @@ public class AncientEncryptorActivity extends AppCompatActivity {
                 String cipher = cipherSpinner.getSelectedItem().toString();
                 String mode = modeSpinner.getSelectedItem().toString();
                 String cipherKey = key.getText().toString();
+                boolean textOption = textMessage.isChecked();
+                boolean emailOption = email.isChecked();
 
                 Intent intent = new Intent(getBaseContext(), MessageActivity.class);
                 intent.putExtra("Cipher", cipher);
                 intent.putExtra("Mode", mode);
                 intent.putExtra("CipherKey", cipherKey);
+                intent.putExtra("TextMessageOption", textOption);
+                intent.putExtra("EmailOption", emailOption);
                 startActivity(intent);
             }
         });

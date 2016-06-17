@@ -1,6 +1,7 @@
 package com.mikerah.android.ancientmessageencryptor;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -20,12 +21,16 @@ public class MessageActivity extends AppCompatActivity {
         String mode = null;
         String key = null;
 
+        boolean wantText = false;
+        boolean wantEmail = false;
+
         Bundle information = getIntent().getExtras();
-        if(information != null) {
-            cipherToUse = information.getString("Cipher");
-            mode = information.getString("Mode");
-            key = information.getString("CipherKey");
-        }
+
+        cipherToUse = information.getString("Cipher");
+        mode = information.getString("Mode");
+        key = information.getString("CipherKey");
+        wantText = information.getBoolean("TextMessageOption");
+        wantEmail = information.getBoolean("EmailOption");
 
         cipherToUse = cipherToUse.replaceAll("\\s","");
         mode = mode.replaceAll("\\s","");
@@ -57,12 +62,24 @@ public class MessageActivity extends AppCompatActivity {
 
         Button sendButton = (Button) findViewById(R.id.send_button);
         final String finalToSend = toSend;
+        final boolean finalWantText = wantText;
+        final boolean finalWantEmail = wantEmail;
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_TEXT,finalToSend);
-                startActivity(intent);
+
+                if(finalWantText) {
+                    Intent intent = new Intent(Intent.ACTION_SENDTO);
+                    intent.setData(Uri.parse("smsto:"));
+                    intent.putExtra("sms_body", finalToSend);
+                    startActivity(intent);
+                }
+                else if (finalWantEmail) {
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+                    intent.putExtra(Intent.EXTRA_TEXT,finalToSend);
+                    startActivity(intent);
+                }
 
             }
         });
