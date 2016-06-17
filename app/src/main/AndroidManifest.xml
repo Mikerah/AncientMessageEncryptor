@@ -11,6 +11,10 @@
         <activity android:name=".MessageActivity">
         </activity>
         <activity android:name=".AncientEncryptorActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
     </application>
 
