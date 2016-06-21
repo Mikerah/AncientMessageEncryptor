@@ -11,19 +11,19 @@
     tools:context="com.mikerah.android.ancientmessageencryptor.MessageActivity">
 
     <EditText
+        android:id="@+id/message_to_encrypt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/message_to_encrypt"
         android:layout_weight="1"
-        android:hint="Enter Message"/>
+        android:ems="10"
+        android:hint="Enter Message"
+        android:inputType="textMultiLine"/>
 
     <Button
+        android:id="@+id/send_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send"
-        android:id="@+id/send_button"
         android:layout_gravity="bottom"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:text="Send"/>
 </LinearLayout>

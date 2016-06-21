@@ -6,7 +6,7 @@ package com.mikerah.android.ancientmessageencryptor;
 public class CaesarCipher implements Cipher {
     @Override
     public String encrypt(String key, String message) {
-        String translated = null;
+        String translated = "";
         int encryptionKey = Integer.parseInt(key);
 
         for(int i = 0; i < message.length(); i++) {
@@ -19,7 +19,7 @@ public class CaesarCipher implements Cipher {
                         num -= 26;
                     }
 
-                    translated += (num + 65);
+                    translated += (char)(num + 65);
                 }
                 else {
                     int num = message.charAt(i) - 'a';
@@ -29,7 +29,7 @@ public class CaesarCipher implements Cipher {
                         num -= 26;
                     }
 
-                    translated += (num + 97);
+                    translated += (char)(num + 97);
                 }
 
             }
@@ -45,30 +45,35 @@ public class CaesarCipher implements Cipher {
 
     @Override
     public String decrypt(String key, String message) {
-        String translated = null;
+        String translated = "";
         int decryptionKey = Integer.parseInt(key);
 
         for(int i = 0; i < message.length(); i++) {
             if(Character.isLetter(message.charAt(i))) {
                 if(Character.isUpperCase(message.charAt(i))) {
                     int num = message.charAt(i) - 'A';
+
+                    num -= decryptionKey;
+
+                    if (num < 0) {
+
+                        num += 26;
+                    }
+
+                    char toAdd = (char)(num + 65);
+                    translated += toAdd;
+                }
+                else {
+                    int num = message.charAt(i) - 'a';
+
                     num -= decryptionKey;
 
                     if (num < 0) {
                         num += 26;
                     }
 
-                    translated += (num + 65);
-                }
-                else {
-                    int num = message.charAt(i) - 'a';
-                    num += decryptionKey;
-
-                    if (num < 0) {
-                        num += 26;
-                    }
-
-                    translated += (num + 97);
+                    char toAdd = (char)(num + 97);
+                    translated += toAdd;
                 }
 
             }

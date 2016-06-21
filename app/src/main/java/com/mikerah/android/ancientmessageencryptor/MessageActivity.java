@@ -10,78 +10,84 @@ import android.widget.EditText;
 
 public class MessageActivity extends AppCompatActivity {
 
+    private Cipher mCipher;
+    private String mCipherToUse;
+    private String mMode;
+    private String mKey;
+    private boolean mWantText;
+    private boolean mWantEmail;
+    private EditText mMessgeToEncrypt;
+    private Button mSendButton;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message);
 
-        Cipher cipher = null;
-
-        String cipherToUse = null;
-        String mode = null;
-        String key = null;
-
-        boolean wantText = false;
-        boolean wantEmail = false;
+        mMessgeToEncrypt = (EditText) findViewById(R.id.message_to_encrypt);
+        mSendButton = (Button) findViewById(R.id.send_button);
 
         Bundle information = getIntent().getExtras();
 
-        cipherToUse = information.getString("Cipher");
-        mode = information.getString("Mode");
-        key = information.getString("CipherKey");
-        wantText = information.getBoolean("TextMessageOption");
-        wantEmail = information.getBoolean("EmailOption");
+        mCipherToUse = information.getString("Cipher");
+        mMode = information.getString("Mode");
+        mKey = information.getString("CipherKey");
+        mWantText = information.getBoolean("TextMessageOption");
+        mWantEmail = information.getBoolean("EmailOption");
 
-        cipherToUse = cipherToUse.replaceAll("\\s","");
-        mode = mode.replaceAll("\\s","");
-        key = key.replaceAll("\\s","");
+        mCipherToUse = mCipherToUse.replaceAll("\\s","");
+        mMode = mMode.replaceAll("\\s","");
+        mKey = mKey.replaceAll("\\s","");
 
         Class typeOfCipher = null;
         try {
-            typeOfCipher = Class.forName("com.mikerah.android.ancientmessageencryptor." + cipherToUse);
+            typeOfCipher = Class.forName("com.mikerah.android.ancientmessageencryptor." + mCipherToUse);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
         try {
-            cipher = (Cipher) typeOfCipher.newInstance();
+            mCipher = (Cipher) typeOfCipher.newInstance();
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
 
-        final String message = ((EditText) findViewById(R.id.message_to_encrypt)).toString();
-        String toSend = null;
-        if(mode.equals("Encrypt")) {
-            toSend = cipher.encrypt(key,message);
-        }
-        else if (mode.equals("Decrypt")) {
-            toSend = cipher.decrypt(key,message);
-        }
 
-        Button sendButton = (Button) findViewById(R.id.send_button);
-        final String finalToSend = toSend;
-        final boolean finalWantText = wantText;
-        final boolean finalWantEmail = wantEmail;
-        sendButton.setOnClickListener(new View.OnClickListener() {
+        mSendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String message = mMessgeToEncrypt.getText().toString();
 
-                if(finalWantText) {
+                String toSend = "";
+                if(mMode.equals("Encrypt")) {
+                    toSend = mCipher.encrypt(mKey,message);
+                }
+                else if (mMode.equals("Decrypt")) {
+                    toSend = mCipher.decrypt(mKey,message);
+                }
+
+                if(mWantText) {
                     Intent intent = new Intent(Intent.ACTION_SENDTO);
                     intent.setData(Uri.parse("smsto:"));
-                    intent.putExtra("sms_body", finalToSend);
+                    intent.putExtra("sms_body", toSend);
                     startActivity(intent);
                 }
-                else if (finalWantEmail) {
+                else if (mWantEmail) {
                     Intent intent = new Intent(Intent.ACTION_SEND);
                     intent.setType("text/plain");
-                    intent.putExtra(Intent.EXTRA_TEXT,finalToSend);
+                    intent.putExtra(Intent.EXTRA_TEXT,toSend);
                     startActivity(intent);
                 }
 
             }
         });
+
     }
+
+
+
+
 }
